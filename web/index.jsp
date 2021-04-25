@@ -158,8 +158,8 @@
                 </tr>
               <tr>
                   <td class="logoContainer" style="text-align: center">
-                  <a href="index.jsp" title="Hana shop logo">
-                    <img class="logo" src="images/logo.png" alt="Hana shop logo" />
+                  <a href="index.jsp" title="PC shop logo">
+                    <img class="logo" src="images/logo.png" alt="PC shop logo" />
                   </a>
                 </td>
               </tr>

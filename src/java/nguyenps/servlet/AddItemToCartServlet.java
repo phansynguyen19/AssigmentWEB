@@ -26,7 +26,6 @@ import nguyenps.cart.CartDAO;
 @WebServlet(name = "AddItemToCartServlet", urlPatterns = {"/AddItemToCartServlet"})
 public class AddItemToCartServlet extends HttpServlet {
     private final String SHOPPING_PAGE = "index.jsp";
-    private final String ERROR_PAGE = "invalid.html";
     private final String LOGIN_PAGE = "login1.jsp";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,10 +40,10 @@ public class AddItemToCartServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        String url = ERROR_PAGE;
+        String url = LOGIN_PAGE;
         try {
             HttpSession session = request.getSession(false);
-            if (session != null) {
+            if (session.getAttribute("USER") != null) {
                 CartDAO cart = (CartDAO) session.getAttribute("CART");
                 if (cart == null) {
                     cart = new CartDAO();

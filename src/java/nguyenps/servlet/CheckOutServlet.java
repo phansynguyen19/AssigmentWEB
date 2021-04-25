@@ -26,15 +26,17 @@ import nguyenps.product.ProductDAO;
 import nguyenps.product.ProductDTO;
 import nguyenps.account.AccountDTO;
 
-
 /**
  *
  * @author Admin
  */
 @WebServlet(name = "CheckOutServlet", urlPatterns = {"/CheckOutServlet"})
 public class CheckOutServlet extends HttpServlet {
+
     private final String SHOPING_DONE_PAGE = "doneShopping.jsp";
     private final String ERROR = "viewCart.jsp";
+    private final String LOGIN_PAGE = "login1.jsp";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -48,48 +50,52 @@ public class CheckOutServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        String url = ERROR;
+        String url = LOGIN_PAGE;
         try {
             ProductDAO dao = new ProductDAO();
             List<ProductDTO> list;
             list = dao.getAllProduct();
             HttpSession session = request.getSession(false);
-            if (session != null) {
+            if (session.getAttribute("USER") != null) {
                 CartDAO cart = (CartDAO) session.getAttribute("CART");
-                if(cart != null) {
+                if (cart != null) {
                     Map<Integer, Integer> hashMap = cart.getItems();
-                    if(hashMap != null) {
-                        float total = (float)session.getAttribute("TOTAL_AMOUNT");
-                        AccountDTO user = (AccountDTO)session.getAttribute("USER");
+                    if (hashMap != null) {
+                        float total = (float) session.getAttribute("TOTAL_AMOUNT");
+                        AccountDTO user = (AccountDTO) session.getAttribute("USER");
                         int userID = user.getId();
                         Timestamp date = Timestamp.valueOf(LocalDateTime.now());
                         int orderID = cart.saveCartToDatabase(total, userID, date);
-                        if(orderID != 0) {
+                        if (orderID != 0) {
                             CartItemDAO cartDAO = new CartItemDAO();
                             for (Integer i : hashMap.keySet()) {
                                 for (ProductDTO foodDTO : list) {
-                                    if(i == foodDTO.getProductID()) {
-                                        if(cartDAO.saveCartItemToDatabase(orderID, foodDTO.getProductID(), hashMap.get(i))){
+                                    if (i == foodDTO.getProductID()) {
+                                        if (cartDAO.saveCartItemToDatabase(orderID, foodDTO.getProductID(), hashMap.get(i))) {
                                             dao.updateQuantity(foodDTO.getProductID(), foodDTO.getQuantity() - hashMap.get(i));
                                             session.removeAttribute("CART");
                                             request.setAttribute("DONE_SHOPPING", "OK");
                                             url = SHOPING_DONE_PAGE;
                                         }
+
                                     }
                                 }
                             }
                         }
+                    } else {
+                        url = ERROR;
                     }
                 }
+                else {
+                        url = ERROR;
+                    }
             }
-        }
-        catch (SQLException ex) {
+        } catch (SQLException ex) {
             //log("CheckOutServlet _ SQLException : " + ex.getMessage());
             ex.printStackTrace();
         } catch (NamingException ex) {
             log("CheckOutServlet _ NamingException : " + ex.getMessage());
-        } 
-        finally {
+        } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
             out.close();

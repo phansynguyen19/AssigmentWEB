@@ -21,7 +21,7 @@ import nguyenps.cart.CartDAO;
  */
 @WebServlet(name = "DeleteItemServlet", urlPatterns = {"/DeleteItemServlet"})
 public class DeleteItemServlet extends HttpServlet {
-    private final String ERROR_PAGE = "error.html";
+    private final String ERROR_PAGE = "login1.jsp";
     private final String VIEW_CART_PAGE = "ViewCartServlet";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,7 +40,7 @@ public class DeleteItemServlet extends HttpServlet {
         String url = ERROR_PAGE;
         try {
             HttpSession session = request.getSession(false);
-            if(session != null) {
+            if(session.getAttribute("USER") != null) {
                 CartDAO cart = (CartDAO)session.getAttribute("CART");
                 if(cart != null) {
                     cart.removeItemFromCart(Integer.parseInt(itemCartID));

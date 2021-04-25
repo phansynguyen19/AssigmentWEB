@@ -32,7 +32,7 @@ import nguyenps.product.ProductDTO;
 @WebServlet(name = "ViewCartServlet", urlPatterns = {"/ViewCartServlet"})
 public class ViewCartServlet extends HttpServlet {
     private final String VIEW_CART = "viewCart.jsp";
-    private final String ERROR = "error.html";
+    private final String ERROR = "login1.jsp";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -50,7 +50,7 @@ public class ViewCartServlet extends HttpServlet {
         String url = VIEW_CART;
         try {
             HttpSession session = request.getSession(false);
-            if (session != null) {
+            if (session.getAttribute("USER") != null) {
                 ProductDAO dao = new ProductDAO();
                 List<ProductDTO> list;
                 list = dao.getAllProduct();
@@ -72,6 +72,9 @@ public class ViewCartServlet extends HttpServlet {
                 else {
                     session.setAttribute("TOTAL_AMOUNT", 0);
                 }
+            }
+            else {
+                url = ERROR;
             }
         }catch (SQLException ex) {
             Logger.getLogger(ViewCartServlet.class.getName()).log(Level.SEVERE, null, ex);

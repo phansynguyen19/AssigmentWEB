@@ -193,7 +193,7 @@
                                     <c:set var="cart" value="${sessionScope.CART}"/>
                                     <c:set var="items" value="${cart.getItems()}"/>
                                     <c:if test="${items == null}">
-                                        <font style="color: red">No foods have been selected</font>
+                                        <font style="color: red">No product have been selected</font>
                                     </c:if>
                                     <hr>
                                     <c:if test="${requestScope.ERROR_UPDATE != null}">

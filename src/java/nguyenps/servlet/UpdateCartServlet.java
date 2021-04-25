@@ -33,7 +33,7 @@ import nguyenps.product.ProductDTO;
 @WebServlet(name = "UpdateCartServlet", urlPatterns = {"/UpdateCartServlet"})
 public class UpdateCartServlet extends HttpServlet {
     private final String VIEW_CART = "ViewCartServlet";
-    private final String ERROR = "error.html";
+    private final String ERROR = "login1.jsp";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -56,7 +56,7 @@ public class UpdateCartServlet extends HttpServlet {
             List<ProductDTO> list;
             list = dao.getAllProduct();
             HttpSession session = request.getSession(false);
-            if (session != null) {
+            if (session.getAttribute("USER") != null) {
                 CartDAO cart = (CartDAO) session.getAttribute("CART");
                 
                 for (int i = 0; i < quantity.length; i++) {
@@ -78,10 +78,6 @@ public class UpdateCartServlet extends HttpServlet {
                 session.setAttribute("CART", cart);
                 url = VIEW_CART;
             }
-//            CartDAO dao = new CartDAO();
-//            for (String string : quantity) {
-//                
-//            }
         }
         catch (SQLException ex) {
             Logger.getLogger(ViewCartServlet.class.getName()).log(Level.SEVERE, null, ex);
