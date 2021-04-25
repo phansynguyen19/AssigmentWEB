@@ -49,7 +49,11 @@ public class SearchServlet extends HttpServlet {
                     request.setAttribute("SEARCH_VALUE", searchValue);
                     request.setAttribute("SEARCH_RESULT", result);
             } else {
-                url = ERROR_PAGE;
+                ProductDAO dao = new ProductDAO();
+                    List<ProductDTO> result = dao.getAllProduct();
+                    request.setAttribute("SEARCH_VALUE", searchValue);
+                    request.setAttribute("SEARCH_RESULT", result);
+                //url = ERROR_PAGE;
             }
         }
         catch (SQLException ex) {

@@ -114,7 +114,7 @@
                                 </c:if>
                                 <c:if test="${empty sessionScope.USER.fullname}">
                                     <td class="webversion">
-                                        <a href="login1.jsp" title="Login" id="js-login-btn" class="btn btn-warning btn-block btn-lg" style="padding: 5px 20px">
+                                        <a href="login1.jsp?page=search&searchValue=${requestScope.SEARCH_VALUE}" title="Login" id="js-login-btn" class="btn btn-warning btn-block btn-lg" style="padding: 5px 20px">
                                             Login
                                         </a>
 
@@ -128,6 +128,7 @@
             </table>
             <table border="0" cellspacing="0" cellpadding="0" width="840" align="center" summary="">
                 <tr>
+                    <td><a class="btn btn-warning" href="index.jsp">Home</a></td>
                     <td class="logoContainer">
                         <form action="DispatchController">
                                 <div class="input-group">
@@ -141,6 +142,7 @@
                                 </div>
                         </form>
                     </td>
+                    
                     <td>
                         <a href="DispatchController?btAction=viewCart" title="See your cart">
                             <img style="width: 34px; height: 34px; float: right; margin-right: 20px" class="logo" src="images/shopping-cart.jpg" alt="Lorem logo" /> 

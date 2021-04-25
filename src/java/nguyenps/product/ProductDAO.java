@@ -122,7 +122,7 @@ public class ProductDAO implements Serializable{
             con = nguyenps.util.DBHelper.makeConnection();
             if (con != null) {
                 //2. Create SQL String
-                String sql = "Select top 4 ProductID, ProductName, Image, Description, Price, CreateDate, CategoryID, Quantity From Products Where Status = 1 And CategoryID = 1 And Quantity > 0 ORDER BY CreateDate DESC";
+                String sql = "Select top 4 ProductID, ProductName, Image, Description, Price, CreateDate, CategoryID, Quantity From Products Where Status = 1 And Quantity > 0 ORDER BY CreateDate DESC";
                 //3. Create Statement
                 stm = con.prepareStatement(sql);
                 //4. Query Data
